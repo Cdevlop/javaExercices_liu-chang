@@ -30,4 +30,10 @@ public class UserService {
         }
             return null;      
     }
+
+    public User createUser(String name, int age) {
+       User user = new User(this.users.size(), name, age);
+       this.users.add(user);
+       return user;
+    }
 }

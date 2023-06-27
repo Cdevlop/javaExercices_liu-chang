@@ -1,5 +1,12 @@
 package fr.liu.myApi.controller;
 
+import java.net.URI;
+import java.util.ArrayList;
+
+import org.apache.catalina.connector.Response;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus.Series;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,37 +26,56 @@ public class AnimalController {
         this.animalService = animalService;
     }
     
+    @CrossOrigin
     @GetMapping("/animal")
-    public Animal getAnimal(@RequestParam int id) {
+    public ResponseEntity<Animal> getAnimal(@RequestParam int id) {
         Animal animal = animalService.getAnimal(id);
-        return animal;
+        if (animal != null) {
+            return ResponseEntity.ok(animal);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/animal")
-    public Animal createAnimal(@RequestBody AnimalRequest body) {
-        Animal animal = animalService.createAnimal(body.getName(), body.getType(), body.getWeight());
-        return animal;
+    public ResponseEntity<Animal> createAnimal(@RequestBody AnimalRequest body) {
+        String name = body.getName();
+        String type = body.getType();
+        int weight = body.getWeight();
+        Animal animal = animalService.createAnimal(name, type, weight);
+
+        if (animal != null) {
+            return ResponseEntity.ok(animal);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/animal")
-    public Animal updateAnimal(@RequestParam int id, @RequestBody AnimalRequest body) {
+    public ResponseEntity<Animal> updateAnimal(@RequestParam int id, @RequestBody AnimalRequest body) {
         Animal animal = animalService.updateAnimal(id, body.getName(), body.getType(), body.getWeight());
-        return animal;
+
+        if (animal != null) {
+            return ResponseEntity.ok(animal);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/animal")
-    public Animal deleAnimal(@RequestParam int id) {
+    public ResponseEntity<Animal> deleleAnimal(@RequestParam int id) {
         Animal animal = animalService.deleteAnimal(id);
-        return animal;
+
+        if (animal != null) {
+            return ResponseEntity.ok(animal);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/animals")
-    public Animal getAnimals() {
-        Animal animal = animalService.getAnimals();
-        return animal;
+    @GetMapping("/animal")
+    public ResponseEntity<ArrayList<Animal>> getAnimals() {
+        ArrayList<Animal> animals = animalService.getAnimals();
+
+        if (animals != null) {
+            return ResponseEntity.ok(animals);
+        }
+        return ResponseEntity.notFound().build();
     }
-
-
-
-
 }

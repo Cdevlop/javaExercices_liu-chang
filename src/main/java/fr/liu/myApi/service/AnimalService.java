@@ -8,7 +8,7 @@ import fr.liu.myApi.model.Animal;
 
 @Service
 public class AnimalService {
-    
+
     private ArrayList<Animal> animals;
 
     public AnimalService() {
@@ -18,33 +18,30 @@ public class AnimalService {
         Animal a2 = new Animal(1, "aigle", "oiseau", 2);
 
         this.animals.add(a1);
-        this.animals.add(a2);   
+        this.animals.add(a2);
     }
 
     public Animal getAnimal(int id) {
         for (Animal animal : this.animals) {
             if (animal.getId() == id) {
-                    return animal;
+                return animal;
             }
         }
-            return null;
+        return null;
     }
 
-    public Animal getAnimals() {
-        for (Animal animal : this.animals) {
-            return animal;
-        }  
-        return null;   
+    public ArrayList<Animal> getAnimals() {
+        return this.animals;
     }
-
 
     public Animal createAnimal(String name, String type, int weight) {
         Animal animal = new Animal(this.animals.size(), name, type, weight);
+        this.animals.add(animal);
         return animal;
     }
 
     public Animal updateAnimal(int id, String name, String type, int weight) {
-        for (Animal animal : animals) {
+        for (Animal animal : this.animals) {
             if (animal.getId() == id) {
                 animal.setName(name);
                 animal.setType(type);
@@ -56,7 +53,7 @@ public class AnimalService {
     }
 
     public Animal deleteAnimal(int id) {
-        for (Animal animal : animals) {
+        for (Animal animal : this.animals) {
             if (animal.getId() == id) {
                 int index = this.animals.indexOf(animal);
                 return this.animals.remove(index);
@@ -64,7 +61,5 @@ public class AnimalService {
         }
         return null;
     }
-
-
 
 }
